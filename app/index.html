@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <style>
+        textarea { 
+            resize: none; 
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Chat App</h1></div>
+    <div class="container">
+        <form>
+            <div class="form-group">
+                <textarea id="replyBox" class="form-control" rows="15" readonly></textarea>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><span>Message </span></div>
+                    <input id="chatMsg" class="form-control" type="text">
+                    <div class="input-group-btn">
+                        <button id="driver" class="btn btn-default" type="button">Send!</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="http://localhost:4001/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io('http://localhost:4001');
+        socket.on('action', function (action) {
+            $('#replyBox').append(action['chatMsg'] + "\n"); 
+            console.log(action);
+        });
+    </script>
+
+    <script type = "text/javascript" language = "javascript">
+         $(document).ready(function() {
+            $("#driver").click(function(event){
+               $.post( 
+                  "/action",
+                  { chatMsg: $("#chatMsg").val() }
+               );  
+               $("#chatMsg").val("");     
+            });  
+         });
+    </script>
+</body>
+
+</html>
