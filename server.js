@@ -30,9 +30,10 @@ apiServer.route({
     method: 'POST',
     path: '/action',
     handler: function (request, reply) {
-        console.log(request.payload);
-        notifier.emit('action', { chatMsg: request.payload['chatMsg'] });
-        reply('Sent!');
+        var tmpMsg = request.payload['userName'] + ": " + request.payload['chatMsg']
+        notifier.emit('action', { chatMsg: tmpMsg });
+        console.log(tmpMsg);
+        //reply('Sent!');
     }
 });
 
