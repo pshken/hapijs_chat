@@ -37,7 +37,7 @@ apiServer.route({
 });
 
 var usernames = {};
-var rooms = ['room1','room2','room3'];
+var rooms = ['Ion', 'Taka', 'Tangs'];
 
 // Setup websocket stuff
 var io = require('socket.io')(wsServer.listener);
@@ -58,12 +58,12 @@ io.on('connection', function (socket) {
 
     socket.on('adduser', function(username){
         socket.username = username;
-        socket.room = 'room1';
+        socket.room = 'Ion';
         usernames[username] = username;
-        socket.join('room1');
-        socket.emit('updatechat', 'SERVER', 'You have connected to room1');
-        socket.broadcast.to('room1').emit('updatechat', 'SERVER', username + ' has connected to this room');
-        socket.emit('updaterooms', rooms, 'room1');
+        socket.join('Ion');
+        socket.emit('updatechat', 'SERVER', 'You have connected to Ion');
+        socket.broadcast.to('Ion').emit('updatechat', 'SERVER', username + ' has connected to this room');
+        socket.emit('updaterooms', rooms, 'Ion');
     });
 
     socket.on('switchRoom', function(newRoom) {

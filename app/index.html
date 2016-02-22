@@ -12,8 +12,10 @@
         }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
-
     <script src="http://localhost:4001/socket.io/socket.io.js"></script>
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="https://rawgit.com/notifyjs/notifyjs/master/dist/notify.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script>
         var socket = io('http://localhost:4001');
 
@@ -25,16 +27,17 @@
             $('#rooms').empty();
             $.each(rooms, function(key, value) {
                 if(value == current_room){
-                    $('#rooms').append('<div>' + value + '</div>');
+                    $('#rooms').append(' ' + value + ' ');
                 }
                 else {
-                    $('#rooms').append('<div><a href="#" onclick="switchRoom(\''+value+'\')">' + value + '</a></div>');
+                    $('#rooms').append('<a href="#" onclick="switchRoom(\''+value+'\')"> ' + value + ' </a>');
                 }
             });
         });
 
         socket.on('updatechat', function (username, data) {
             $('#replyBox').append(username + ": " + data + "\n");
+            $.notify(username + " say something new!", "info");
         });
 
         function switchRoom(roomValue){
@@ -42,34 +45,6 @@
         }
     </script>
 
-</head>
-
-<body>
-    <div class="container">
-        <h1>Hapijs Chat App Demo: </h1>
-        <div id="rooms"></div>
-    </div>
-    <div class="container">
-        <form>
-            <div class="form-group">
-                Username: <input type="text" id="inputUsername">
-            </div>
-            <div class="form-group">
-                <textarea id="replyBox" class="form-control" rows="15" readonly></textarea>
-            </div>
-            <div class="form-group">
-                <div class="input-group">
-                    <div class="input-group-addon"><span>Message </span></div>
-                    <input id="chatMsg" class="form-control" type="text">
-                    <div class="input-group-btn">
-                        <button id="driver" class="btn btn-default" type="button">Send!</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script>
          $(document).ready(function() {
             $("#driver").click(function(event){
@@ -85,6 +60,30 @@
             });  
          });
     </script>
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>Hapijs Chat App Demo: </h1>
+        <div id="rooms"></div>
+    </div>
+    <div class="container">
+        <form>
+            <div class="form-group">
+                <textarea id="replyBox" class="form-control" rows="15" readonly></textarea>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><span>Message </span></div>
+                    <input id="chatMsg" class="form-control" type="text">
+                    <div class="input-group-btn">
+                        <button id="driver" class="btn btn-default" type="button">Send!</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 </body>
 
 </html>
